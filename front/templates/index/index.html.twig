@@ -8,6 +8,8 @@ table, tr, th, td{
     border: 1px solid black;
 }
 </style>
+
+<h2>Utilisateurs</h2>
 <table>
 <thead>
 <tr>
@@ -20,23 +22,53 @@ table, tr, th, td{
 <th>Likes</th>
 </thead>
 <tbody>
-{% for res in resultats %}
+{% for user in users %}
 <tr>
-<td> {{ res.id }} </td>
-<td> {{ res.pseudo }} </td>
-<td> {{ res.password }} </td>
+<td> {{ user.id }} </td>
+<td> {{ user.pseudo }} </td>
+<td> {{ user.password }} </td>
 <td>
-    {% if res.profil_pic %}
-        <img src="{{ res.profil_pic }}" width="70" alt="pic">
+    {% if user.profil_pic %}
+        <img src="http://api.local/{{ user.profil_pic }}" width="70" alt="pic">
     {% else %}
         <img src="http://api.local/media/default.png" width="70" alt="pic">
     {% endif %}
 </td>
-<td> {{ res.description }} </td>
-<td> {{ res.suivis }} </td>
-<td> {{ res.likes }} </td>
+<td> {{ user.description }} </td>
+<td> {{ user.suivis }} </td>
+<td> {{ user.likes }} </td>
 </tr>
 {% endfor %}
+</tbody>
+</table>
+
+<h2>Tweets</h2>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Utilisateur</th>
+<th>DateHeure</th>
+<th>Message</th>
+<th>Media</th>
+</tr>
+</thead>
+<tbody>
+    {% for tweet in tweets %}
+        <tr>
+            <td> {{ tweet.id }} </td>
+            <td> {{ tweet.user }} </td>
+            <td> {{ tweet.dateheure.date | format_datetime(locale='fr') }} </td>
+            <td> {{ tweet.message }} </td>
+            <td>
+                {% if tweet.media %}
+                    <img src="http://api.local/{{ tweet.media }}" width="70" alt="pic">
+                {% else %}
+                    Aucun media
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
 </tbody>
 </table>
 

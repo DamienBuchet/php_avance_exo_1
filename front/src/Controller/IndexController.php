@@ -13,10 +13,15 @@ class IndexController extends AbstractController
     public function index(): Response
     {
         $client = HttpClient::create();
-        $response = $client->request('GET', 'http://api.local');
-        $res = ((((array)json_decode($response->getContent()))['users']));
+        $response = $client->request('GET', 'http://api.local/users');
+        $users = ((((array)json_decode($response->getContent()))['users']));
+
+        $response = $client->request('GET', 'http://api.local/tweets');
+        $tweets = ((((array)json_decode($response->getContent()))['tweets']));
+
         return $this->render('index/index.html.twig', [
-            'resultats' => $res,
+            'users' => $users,
+            'tweets' => $tweets,
         ]);
     }
 }
