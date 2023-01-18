@@ -16,7 +16,7 @@ class AppFixtures extends Fixture
         $faker->seed(1717);
 
         $users = [];
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 100; $i++) {
             $users[$i] = new User();
             $users[$i]
                 ->setPseudo($faker->firstName)
@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
         }
 
         $tweets = [];
-        for ($i=0; $i < 15; $i++) { 
+        for ($i=0; $i < 1000; $i++) { 
             $tweets[$i] = new Tweet();
             $tweets[$i]
                 ->setDateheure($faker->dateTime)
