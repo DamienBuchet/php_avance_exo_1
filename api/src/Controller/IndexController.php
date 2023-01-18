@@ -7,7 +7,6 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Faker;
 use Doctrine\Persistence\ManagerRegistry;
 
 class IndexController extends AbstractController
@@ -15,14 +14,21 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(ManagerRegistry $doctrine): JsonResponse
     {
-        // $em = $doctrine->getManager();
-        // $faker = Faker\Factory::create('fr_FR');
-        // $populator = new Faker\ORM\Doctrine\Populator($faker, $em);
-        // $populator->addEntity(User::class, 10);
-        // $populator->addEntity(Tweet::class, 5);
-        // $insertedPKs = $populator->execute();
+        $users = $doctrine->getRepository(User::class)->findAll();
+        $utilisateurs = [];
+        foreach ($users as $user) {
+            $u = [];
+            $u['id'] = $user->getId();
+            $u['pseudo'] = $user->getPseudo();
+            $u['password'] = $user->getPassword();
+            $u['profil_pic'] = $user->getProfilPic();
+            $u['description'] = $user->getDescription();
+            $u['suivis'] = $user->getSuivis();
+            $u['likes'] = $user->getLikes();
+            $utilisateurs[] = $u;
+        }
         return $this->json([
-            'message' => 'Hello World!',
+            'users' => $utilisateurs,
         ]);
     }
 }

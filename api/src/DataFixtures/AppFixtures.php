@@ -19,8 +19,8 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 10; $i++) {
             $users[$i] = new User();
             $users[$i]
-                ->setPseudo($faker->firstNameMale)
-                ->setPassword($faker->password())
+                ->setPseudo($faker->firstName)
+                ->setPassword(crypt($faker->password(), '$6$rounds=5000$randomsaltforfaker$'))
                 ->setProfilPic(NULL)
                 ->setDescription($faker->realText())
                 ->setSuivis(NULL)

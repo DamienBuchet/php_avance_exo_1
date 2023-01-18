@@ -14,9 +14,9 @@ class IndexController extends AbstractController
     {
         $client = HttpClient::create();
         $response = $client->request('GET', 'http://api.local');
-        $res = ((((array)json_decode($response->getContent()))['message']));
+        $res = ((((array)json_decode($response->getContent()))['users']));
         return $this->render('index/index.html.twig', [
-            'res' => $res,
+            'resultats' => $res,
         ]);
     }
 }

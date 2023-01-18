@@ -1,7 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ res }} {% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-{{ res }}
+<style>
+table, tr, th, td{
+    border: 1px solid black;
+}
+</style>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Pseudo</th>
+<th>Password</th>
+<th>Profil_pic</th>
+<th>Description</th>
+<th>Suivis</th>
+<th>Likes</th>
+</thead>
+<tbody>
+{% for res in resultats %}
+<tr>
+<td> {{ res.id }} </td>
+<td> {{ res.pseudo }} </td>
+<td> {{ res.password }} </td>
+<td>
+    {% if res.profil_pic %}
+        <img src="{{ res.profil_pic }}" width="70" alt="pic">
+    {% else %}
+        <img src="http://api.local/media/default.png" width="70" alt="pic">
+    {% endif %}
+</td>
+<td> {{ res.description }} </td>
+<td> {{ res.suivis }} </td>
+<td> {{ res.likes }} </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
 {% endblock %}
