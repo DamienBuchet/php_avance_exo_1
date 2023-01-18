@@ -175,6 +175,7 @@ async function show_tweet(tweet_id) {
     document.getElementById(tweet_id).style.backgroundColor = 'lightgrey';
     await sleep(1500);
     document.getElementById(tweet_id).style.backgroundColor = 'transparent';
+    document.querySelector('#back_to_tweet').style.display = 'none';
 }
 
 function sleep(ms) {
