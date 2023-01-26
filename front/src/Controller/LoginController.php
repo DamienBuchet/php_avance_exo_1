@@ -59,7 +59,34 @@ class LoginController extends AbstractController
         }
 
         if (isset($login)) {
-            
+            $pseudo = htmlentities(trim($request->get('l_pseudo')));
+            $pass = htmlentities(trim($request->get('l_pass')));
+            $verif = 1;
+            if ($pseudo == null || empty($pseudo) || $pseudo == "") {
+                $verif = 0;
+                echo "<script>alert('Le pseudonyme n\'est pas valide')</script>";
+            }
+            elseif ($pass == null || empty($pass) || $pass == "") {
+                $verif = 0;
+                echo "<script>alert('Le mot de passe n\'est pas valide')</script>";
+            }
+            elseif (strlen($pass) < 8) {
+                $verif = 0;
+                echo "<script>alert('Veuillez utiliser au moins 8 caractères')</script>";
+            }
+
+            if ($verif == 1) {
+                $pass = crypt($pass, $pass);
+                $client = HttpClient::create();
+                $response = $client->request('GET', "http://localhost/php_avance/api/public/users/$pseudo/$pass");
+                $res = ((((array)json_decode($response->getContent()))['response']));
+                if ($res == 0) {
+                    echo "<script>alert('Pseudo ou mot de passe incorrect ou inexistant')</script>";
+                }
+                else {
+                    echo "<script>location.href = 'http://localhost/php_avance/front/public/accueil'</script>";
+                }
+            }
         }
 
         return $this->render('login/index.html.twig', [

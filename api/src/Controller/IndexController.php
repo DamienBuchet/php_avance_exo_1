@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class IndexController extends AbstractController
 {
@@ -49,6 +50,22 @@ class IndexController extends AbstractController
         $u['role'] = $user->getRole();
         return $this->json([
             'user' => $u,
+        ]);
+    }
+
+    #[Route('/users/{pseudo}/{password}', name: 'app_get_user_pseudo', methods: 'GET')]
+    public function get_user_pseudo($pseudo, $password, ManagerRegistry $doctrine): JsonResponse
+    {
+        $user = $doctrine->getRepository(User::class)->findBy(['pseudo' => $pseudo, 'password' => $password]);
+        $response = false;
+        if ($user == null) {
+            $response = false;
+        }
+        else {
+            $response = true;
+        }
+        return $this->json([
+            'response' => $response,
         ]);
     }
 
@@ -120,5 +137,12 @@ class IndexController extends AbstractController
         return $this->json([
             'tweets' => $messages,
         ]);
+    }
+
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
     }
 }
