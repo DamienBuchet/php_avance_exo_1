@@ -36,6 +36,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Tweet::class, orphanRemoval: true)]
     private Collection $tweets;
 
+    #[ORM\Column]
+    private ?int $role = null;
+
     public function __construct()
     {
         $this->tweets = new ArrayCollection();
@@ -144,6 +147,18 @@ class User
                 $tweet->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRole(): ?int
+    {
+        return $this->role;
+    }
+
+    public function setRole(int $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }
