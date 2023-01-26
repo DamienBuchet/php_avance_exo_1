@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,10 +38,24 @@ class LoginController extends AbstractController
                 $verif = 0;
                 echo "<script>alert('Les mots de passe ne correspondent pas')</script>";
             }
+            elseif (strlen($pass) < 8) {
+                $verif = 0;
+                echo "<script>alert('Veuillez utiliser au moins 8 caractères')</script>";
+            }
 
             if ($verif == 1) {
-                
+                $client = HttpClient::create();
+                $response = $client->request('POST', 'http://localhost/php_avance/api/public/users', [
+                    'body' =>
+                    [
+                        'pseudo' => $pseudo,
+                        'password' => crypt($pass, $pass),
+                    ],
+                ]);
+                echo "<script>alert('".substr($response->getContent(), 2, -2)."')</script>";
             }
+
+            echo "<script>if(window.history.replaceState){window.history.replaceState(null,null,window.location.href);}</script>";
         }
 
         return $this->render('login/index.html.twig', [

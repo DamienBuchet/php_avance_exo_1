@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends AbstractController
 {
@@ -25,6 +26,7 @@ class IndexController extends AbstractController
             $u['description'] = $user->getDescription();
             $u['suivis'] = $user->getSuivis();
             $u['likes'] = $user->getLikes();
+            $u['role'] = $user->getRole();
             $utilisateurs[] = $u;
         }
         return $this->json([
@@ -44,8 +46,42 @@ class IndexController extends AbstractController
         $u['description'] = $user->getDescription();
         $u['suivis'] = $user->getSuivis();
         $u['likes'] = $user->getLikes();
+        $u['role'] = $user->getRole();
         return $this->json([
             'user' => $u,
+        ]);
+    }
+
+    #[Route('/users', name: 'app_cr_user', methods: 'POST')]
+    public function cr_user(Request $request, ManagerRegistry $doctrine): JsonResponse
+    {
+        $response = "Le compte a bien été créé";
+        try {
+            $pseudo = $request->get('pseudo');
+            $password = $request->get('password');
+            $user = $doctrine->getRepository(User::class)->findBy(['pseudo' => $pseudo]);
+            if ($user != null) {
+                $response = "Le pseudonyme est déjà utilisé";
+            }
+            else {
+                $em = $doctrine->getManager();
+                $u = new User();
+                $u->setPseudo($pseudo);
+                $u->setPassword($password);
+                $u->setProfilPic(NULL);
+                $u->setDescription(NULL);
+                $u->setSuivis(NULL);
+                $u->setLikes(NULL);
+                $u->setRole(0);
+                $em->persist($u);
+                $em->flush(); 
+            }
+        } catch (\Throwable $th) {
+            $response = "Une erreur a eu lieu";
+        }
+
+        return $this->json([
+            $response,
         ]);
     }
 
