@@ -58,8 +58,11 @@ class LoginController extends AbstractController
             echo "<script>if(window.history.replaceState){window.history.replaceState(null,null,window.location.href);}</script>";
         }
 
+        if (isset($login)) {
+            
+        }
+
         return $this->render('login/index.html.twig', [
-            'controller_name' => 'LoginController',
         ]);
     }
 }
