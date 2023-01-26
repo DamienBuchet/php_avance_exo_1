@@ -7,9 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpClient\HttpClient;
 
-class IndexController extends AbstractController
+class AccueilController extends AbstractController
 {
-    #[Route('/index', name: 'app_index')]
+    #[Route('/accueil', name: 'app_accueil')]
     public function index(): Response
     {
         $client = HttpClient::create();
@@ -18,8 +18,8 @@ class IndexController extends AbstractController
 
         $response = $client->request('GET', 'http://localhost/php_avance/api/public/tweets');
         $tweets = ((((array)json_decode($response->getContent()))['tweets']));
-
-        return $this->render('index/index.html.twig', [
+        return $this->render('accueil/index.html.twig', [
+            'connecte' => true,
             'users' => $users,
             'tweets' => $tweets,
         ]);

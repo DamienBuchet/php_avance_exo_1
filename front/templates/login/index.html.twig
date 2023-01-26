@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion/Inscription{% endblock %}
+
+{% block body %}
+<style>
+@font-face{
+    font-family: "Nabla";
+    src: url("http://localhost/php_avance/front/public/media/fonts/Nabla/static/Nabla-Regular.ttf")
+}
+
+.header{
+    width: 98vw;
+    height: 8vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header h1{
+    font-family: 'Nabla';
+    font-size: 35px;
+    margin-top: 0;
+    margin-left: 10px;
+}
+
+.titre{
+    display: flex;
+}
+
+.titre img{
+    margin-top: -70px;
+}
+
+.container{
+    display: flex;
+    height: 80vh;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.login, .signin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+input{
+    margin: 5px;
+    width: 200px;
+    height: 25px;
+}
+</style>
+
+<div class="header">
+    <div class="titre">
+        <h1>RSOnyx</h1>
+        <img src="http://localhost/php_avance/front/public/media/logo.png" width="200" height="200" alt="logo">
+    </div>
+</div>
+
+<div class="container">
+    <form method="post" class="login">
+        <h2>Connexion</h2>
+        <input type="text" placeholder="Pseudo" name="l_pseudo" required>
+        <input type="password" placeholder="Mot de passe" name="l_pass" required>
+        <input type="submit" value="Se connecter" name="l">
+    </form>
+    <hr style="width: 1px; height: 300px; border: none; background-color: black;">
+    <form method="post" class="signin">
+        <h2>Inscription</h2>
+        <input type="text" placeholder="Pseudo" name="s_pseudo" required>
+        <input type="password" placeholder="Mot de passe" name="s_pass" required>
+        <input type="password" placeholder="Confirmez le mot de passe" name="s_cpass" required>
+        <input type="submit" value="S'inscrire" name="s">
+    </form>
+</div>
+{% endblock %}

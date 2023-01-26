@@ -1,0 +1,197 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RSOnyx{% endblock %}
+
+{% block body %}
+
+<style>
+@font-face{
+    font-family: "Nabla";
+    src: url("http://localhost/php_avance/front/public/media/fonts/Nabla/static/Nabla-Regular.ttf")
+}
+
+div{
+    margin: 10px;
+}
+
+.header{
+    width: 98vw;
+    height: 8vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header h1{
+    font-family: 'Nabla';
+    font-size: 35px;
+    margin-top: 0;
+    margin-left: 10px;
+}
+
+.titre{
+    display: flex;
+}
+
+.titre img{
+    margin-top: -70px;
+}
+
+.liste_users{
+    width: 20vw;
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+.liste_users ul{
+    list-style-type: none;
+}
+
+.tweets{
+    width: 70vw;
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+.t_user{
+    display: flex;
+}
+
+.content{
+    display: flex;
+    justify-content: space-around;
+}
+
+.post{
+    height: 5vh;
+    display: flex;
+    margin-left: 12%;
+    margin-top: 30px;
+}
+
+.post textarea{
+    height: 4.5vh;
+    width: 60vw;
+}
+
+.post input[type="file"]{
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.post button{
+    margin-left: 250px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    margin-top: 5px;
+}
+
+.card{
+    border: 1px solid black;
+}
+
+.space{
+    width: 30px;
+}
+
+#profile{
+    width: 100px;
+    height: 60px;
+    background-color: white;
+    position: fixed;
+    border: 1px solid black;
+    left: 93%;
+    top: 8%;
+    text-align: center;
+    padding-top: 15px;
+    display: none;
+}
+</style>
+
+<div class="header">
+    <div class="titre">
+        <h1>RSOnyx</h1>
+        <img src="http://localhost/php_avance/front/public/media/logo.png" width="200" height="200" alt="logo">
+    </div>
+    {% if connecte %}
+        <img src="http://localhost/php_avance/api/public/media/default.png" width="60" height="60" alt="img" onclick="
+        if (document.getElementById('profile').style.display == 'block') {
+            document.getElementById('profile').style.display = 'none';
+        }
+        else {
+            document.getElementById('profile').style.display = 'block';
+        }
+        ">
+        <div id="profile">
+            <a href="http://localhost/php_avance/front/public/user/{{ users[0].id }}">Mon profil</a><br>
+            <a href="#">Déconnexion</a>
+        </div>
+    {% else %}
+        <a href="/login">Connexion/Inscription</a>
+    {% endif %}
+</div>
+
+<div class="container">
+
+    <div class="content">
+
+        <div class="liste_users">
+            <ul>
+                <li><h2>Liste des utilisateurs</h2></li>
+                {% for user in users %}
+                    <li>{{ user.pseudo }} (<a href="#">Envoyer un message</a>)</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="tweets">
+            {% for tweet in tweets %}
+                <div class="card">
+                    <div class="t_user">
+                        {% for user in users %}
+                            {% if user.id == tweet.user %}
+                                {% if user.profil_pic %}
+                                    <img src="http://localhost/php_avance/api/public/{{ user.profil_pic }}" alt="user" width="40" height="40">
+                                {% else %}
+                                    <img src="http://localhost/php_avance/api/public/media/default.png" alt="user" width="40" height="40">
+                                {% endif %}
+                                <p>{{ user.pseudo }}</p>
+                                <button style="height: 20px; border: none; background-color: transparent; margin-top: 10px; font-size: 25px; color: blue; cursor: pointer">+</button>
+                                <span class="space"></span>
+                                <p>{{ tweet.dateheure.date | format_datetime(pattern='HH:mm:ss dd/MM/yyyy') }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="t_contenu">
+                        <code>
+                            {{ tweet.message }}
+                        </code>
+                        <br>
+                        {% if tweet.media %}
+                            <img src="http://localhost/php_avance/front/public/{{ tweet.media }}" alt="img" width="150">
+                        {% endif %}
+                    </div>
+                    <div class="actions">
+                        <button style="border: none; background-color: transparent; font-size: 35px; color: grey; cursor: pointer;">♥</button>
+                        <button style="border: none; background-color: transparent; font-size: 35px; color: blue; cursor: pointer;">🗨</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="post">
+        <form method="post" enctype="multipart/data">
+            <textarea placeholder="Votre message..."></textarea>
+            <input type="file">
+            <button type="submit"><img src="http://localhost/php_avance/front/public/media/send.png" alt="Envoyer" width="40"></button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 1000; $i++) { 
             $tweets[$i] = new Tweet();
             $tweets[$i]
-                ->setDateheure($faker->dateTime)
+                ->setDateheure($faker->dateTimeBetween('-1 year'))
                 ->setMessage($faker->realText())
                 ->setMedia(NULL)
             ;
