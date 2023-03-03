@@ -123,11 +123,11 @@ table, tr, th, td {
             <tr id="{{ tweet.id }}">
                 <td> {{ tweet.id }} </td>
                 <td> <a class="link_user" onclick="show_user({{ tweet.user }}, {{ tweet.id }})">{{ tweet.user }}</a> </td>
-                <td> {{ tweet.dateheure.date | format_datetime(pattern='HH:mm:ss dd/MM/yyyy') }} </td>
+                <td> {{ tweet.dateheure | format_datetime(pattern='HH:mm:ss dd/MM/yyyy') }} </td>
                 <td> {{ tweet.message }} </td>
                 <td>
                     {% if tweet.media %}
-                        <img src="http://localhost/php_avance/api/public/{{ tweet.media }}" width="70" alt="pic">
+                        <img src="http://localhost/php_avance/front/public/{{ tweet.media }}" width="70" alt="pic">
                     {% else %}
                         Aucun media
                     {% endif %}

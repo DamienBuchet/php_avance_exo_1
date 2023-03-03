@@ -50,7 +50,10 @@
             <h1>RSOnyx</h1>
             <img src="http://localhost/php_avance/front/public/media/logo.png" width="200" height="200" alt="logo">
         </div>
-        <img src="http://localhost/php_avance/api/public/media/default.png" width="60" height="60" alt="img" onclick="
+            {% for user in users %}
+                {% if user.email == mail %}
+                    {% if user.profil_pic %}
+                            <img src="http://localhost/php_avance/front/public/{{ user.profil_pic }}" width="60" height="60" alt="img" onclick="
         if (document.getElementById('profile').style.display == 'block') {
             document.getElementById('profile').style.display = 'none';
         }
@@ -58,6 +61,26 @@
             document.getElementById('profile').style.display = 'block';
         }
         ">
+                    {% else %}
+                            <img src="http://localhost/php_avance/api/public/media/default.png" width="60" height="60" alt="img" onclick="
+        if (document.getElementById('profile').style.display == 'block') {
+            document.getElementById('profile').style.display = 'none';
+        }
+        else {
+            document.getElementById('profile').style.display = 'block';
+        }
+        ">
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {# <img src="http://localhost/php_avance/api/public/media/default.png" width="60" height="60" alt="img" onclick="
+        if (document.getElementById('profile').style.display == 'block') {
+            document.getElementById('profile').style.display = 'none';
+        }
+        else {
+            document.getElementById('profile').style.display = 'block';
+        }
+        "> #}
         <div id="profile">
             {% set u = null %}
             {% for user in users %}

@@ -94,14 +94,14 @@ div{
                         {% for user in users %}
                             {% if user.id == tweet.user %}
                                 {% if user.profil_pic %}
-                                    <img src="http://localhost/php_avance/api/public/{{ user.profil_pic }}" alt="user" width="40" height="40">
+                                    <img src="http://localhost/php_avance/front/public/{{ user.profil_pic }}" alt="user" width="40" height="40">
                                 {% else %}
                                     <img src="http://localhost/php_avance/api/public/media/default.png" alt="user" width="40" height="40">
                                 {% endif %}
                                 <p>{{ user.pseudo }}</p>
                                 <button style="height: 20px; border: none; background-color: transparent; margin-top: 10px; font-size: 25px; color: blue; cursor: pointer">+</button>
                                 <span class="space"></span>
-                                <p>{{ tweet.dateheure.date | format_datetime(pattern='HH:mm:ss dd/MM/yyyy') }}</p>
+                                <p>{{ tweet.dateheure | format_datetime(pattern='HH:mm:ss dd/MM/yyyy') }}</p>
                             {% endif %}
                         {% endfor %}
                     </div>

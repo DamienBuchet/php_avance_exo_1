@@ -55,6 +55,26 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/users/mail/{mail}', name: 'app_get_user_by_mail', methods: 'GET')]
+    public function get_user_by_mail($mail, ManagerRegistry $doctrine): JsonResponse
+    {
+        $user = $doctrine->getRepository(User::class)->findBy(['email' => $mail]);
+        $user = $user[0];
+        $u = [];
+        $u['id'] = $user->getId();
+        $u['email'] = $user->getEmail();
+        $u['pseudo'] = $user->getPseudo();
+        $u['password'] = $user->getPassword();
+        $u['profil_pic'] = $user->getProfilPic();
+        $u['description'] = $user->getDescription();
+        $u['suivis'] = $user->getSuivis();
+        $u['likes'] = $user->getLikes();
+        $u['role'] = $user->getRole();
+        return $this->json([
+            'user' => $u,
+        ]);
+    }
+
     #[Route('/users/{mail}/{password}', name: 'app_get_user_mail', methods: 'GET')]
     public function get_user_mail($mail, $password, ManagerRegistry $doctrine): JsonResponse
     {

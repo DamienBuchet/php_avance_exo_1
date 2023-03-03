@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\TweetRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: TweetRepository::class)]
+#[ApiResource]
 class Tweet
 {
     #[ORM\Id]
