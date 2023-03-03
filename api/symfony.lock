@@ -47,6 +47,19 @@
             "./migrations/.gitignore"
         ]
     },
+    "nelmio/api-doc-bundle": {
+        "version": "4.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "./config/packages/nelmio_api_doc.yaml",
+            "./config/routes/nelmio_api_doc.yaml"
+        ]
+    },
     "sensio/framework-extra-bundle": {
         "version": "6.2",
         "recipe": {
@@ -134,6 +147,18 @@
         "files": [
             "./config/packages/routing.yaml",
             "./config/routes.yaml"
+        ]
+    },
+    "symfony/validator": {
+        "version": "6.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "c32cfd98f714894c4f128bb99aa2530c1227603c"
+        },
+        "files": [
+            "./config/packages/validator.yaml"
         ]
     }
 }

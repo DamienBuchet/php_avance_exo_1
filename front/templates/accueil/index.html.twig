@@ -5,37 +5,9 @@
 {% block body %}
 
 <style>
-@font-face{
-    font-family: "Nabla";
-    src: url("http://localhost/php_avance/front/public/media/fonts/Nabla/static/Nabla-Regular.ttf")
-}
 
 div{
     margin: 10px;
-}
-
-.header{
-    width: 98vw;
-    height: 8vh;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    justify-content: space-between;
-}
-
-.header h1{
-    font-family: 'Nabla';
-    font-size: 35px;
-    margin-top: 0;
-    margin-left: 10px;
-}
-
-.titre{
-    display: flex;
-}
-
-.titre img{
-    margin-top: -70px;
 }
 
 .liste_users{
@@ -98,42 +70,9 @@ div{
     width: 30px;
 }
 
-#profile{
-    width: 100px;
-    height: 60px;
-    background-color: white;
-    position: fixed;
-    border: 1px solid black;
-    left: 93%;
-    top: 8%;
-    text-align: center;
-    padding-top: 15px;
-    display: none;
-}
 </style>
 
-<div class="header">
-    <div class="titre">
-        <h1>RSOnyx</h1>
-        <img src="http://localhost/php_avance/front/public/media/logo.png" width="200" height="200" alt="logo">
-    </div>
-    {% if connecte %}
-        <img src="http://localhost/php_avance/api/public/media/default.png" width="60" height="60" alt="img" onclick="
-        if (document.getElementById('profile').style.display == 'block') {
-            document.getElementById('profile').style.display = 'none';
-        }
-        else {
-            document.getElementById('profile').style.display = 'block';
-        }
-        ">
-        <div id="profile">
-            <a href="http://localhost/php_avance/front/public/user/{{ users[0].id }}">Mon profil</a><br>
-            <a href="#">Déconnexion</a>
-        </div>
-    {% else %}
-        <a href="/login">Connexion/Inscription</a>
-    {% endif %}
-</div>
+{{ render('/header') }}
 
 <div class="container">
 
@@ -185,10 +124,10 @@ div{
     </div>
 
     <div class="post">
-        <form method="post" enctype="multipart/data">
-            <textarea placeholder="Votre message..."></textarea>
-            <input type="file">
-            <button type="submit"><img src="http://localhost/php_avance/front/public/media/send.png" alt="Envoyer" width="40"></button>
+        <form method="post" enctype="multipart/form-data">
+            <textarea placeholder="Votre message..." id="message" name="message" required></textarea>
+            <input type="file" id="media" name="media">
+            <button type="submit" id='send_message' name="send_message"><img src="http://localhost/php_avance/front/public/media/send.png" alt="Envoyer" width="40"></button>
         </form>
     </div>
 

@@ -21,6 +21,7 @@ class IndexController extends AbstractController
         foreach ($users as $user) {
             $u = [];
             $u['id'] = $user->getId();
+            $u['email'] = $user->getEmail();
             $u['pseudo'] = $user->getPseudo();
             $u['password'] = $user->getPassword();
             $u['profil_pic'] = $user->getProfilPic();
@@ -41,6 +42,7 @@ class IndexController extends AbstractController
         $user = $doctrine->getRepository(User::class)->find($id);
         $u = [];
         $u['id'] = $user->getId();
+        $u['email'] = $user->getEmail();
         $u['pseudo'] = $user->getPseudo();
         $u['password'] = $user->getPassword();
         $u['profil_pic'] = $user->getProfilPic();
@@ -53,15 +55,12 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/users/{pseudo}/{password}', name: 'app_get_user_pseudo', methods: 'GET')]
-    public function get_user_pseudo($pseudo, $password, ManagerRegistry $doctrine): JsonResponse
+    #[Route('/users/{mail}/{password}', name: 'app_get_user_mail', methods: 'GET')]
+    public function get_user_mail($mail, $password, ManagerRegistry $doctrine): JsonResponse
     {
-        $user = $doctrine->getRepository(User::class)->findBy(['pseudo' => $pseudo, 'password' => $password]);
+        $user = $doctrine->getRepository(User::class)->findBy(['email' => $mail, 'password' => $password]);
         $response = false;
-        if ($user == null) {
-            $response = false;
-        }
-        else {
+        if ($user != null) {
             $response = true;
         }
         return $this->json([
@@ -74,15 +73,17 @@ class IndexController extends AbstractController
     {
         $response = "Le compte a bien été créé";
         try {
+            $mail = $request->get('mail');
             $pseudo = $request->get('pseudo');
             $password = $request->get('password');
-            $user = $doctrine->getRepository(User::class)->findBy(['pseudo' => $pseudo]);
+            $user = $doctrine->getRepository(User::class)->findBy(['email' => $mail]);
             if ($user != null) {
-                $response = "Le pseudonyme est déjà utilisé";
+                $response = "L'email est déjà utilisé";
             }
             else {
                 $em = $doctrine->getManager();
                 $u = new User();
+                $u->setEmail($mail);
                 $u->setPseudo($pseudo);
                 $u->setPassword($password);
                 $u->setProfilPic(NULL);
@@ -120,10 +121,10 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/tweets', name: 'app_tweets')]
+    #[Route('/tweets', name: 'app_tweets', methods: 'GET')]
     public function tweets(ManagerRegistry $doctrine): JsonResponse
     {
-        $tweets = $doctrine->getRepository(Tweet::class)->findAll();
+        $tweets = $doctrine->getRepository(Tweet::class)->findAllOrderByDate();
         $messages = [];
         foreach ($tweets as $tweet) {
             $t = [];
@@ -136,6 +137,32 @@ class IndexController extends AbstractController
         }
         return $this->json([
             'tweets' => $messages,
+        ]);
+    }
+
+    #[Route('/tweets', name: 'app_env_tweet', methods: 'POST')]
+    public function env_tweet(Request $request, ManagerRegistry $doctrine): JsonResponse
+    {
+        $response = "ok";
+        try {
+            $mail = $request->get('mail');
+            $user = $doctrine->getRepository(User::class)->findBy(['email' => $mail]);
+            $message = $request->get('message');
+            $media = $request->get('media');
+            $em = $doctrine->getManager();
+            $t = new Tweet();
+            $t->setUser($user[0]);
+            $t->setDateheure(new \DateTime(date("Y-m-d H:i:s")));
+            $t->setMessage($message);
+            $t->setMedia($media);
+            $em->persist($t);
+            $em->flush(); 
+        } catch (\Throwable $th) {
+            $response = "non";
+        }
+
+        return $this->json([
+            $response,
         ]);
     }
 

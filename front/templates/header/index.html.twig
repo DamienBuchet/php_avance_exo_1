@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<style>
+           #profile{
+                width: 100px;
+                height: 60px;
+                background-color: white;
+                position: fixed;
+                border: 1px solid black;
+                left: 93%;
+                top: 8%;
+                text-align: center;
+                padding-top: 15px;
+                display: none;
+            }
+            div{
+                margin: 10px;
+            }
+
+            .header{
+                width: 98vw;
+                height: 8vh;
+                margin-left: auto;
+                margin-right: auto;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .header h1{
+                font-family: 'Nabla';
+                font-size: 35px;
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+            .titre{
+                display: flex;
+                cursor: pointer;
+            }
+
+            .titre img{
+                margin-top: -70px;
+            }
+</style>
+    <div class="header">
+        <div class="titre" onclick="location.href = '/accueil'">
+            <h1>RSOnyx</h1>
+            <img src="http://localhost/php_avance/front/public/media/logo.png" width="200" height="200" alt="logo">
+        </div>
+        <img src="http://localhost/php_avance/api/public/media/default.png" width="60" height="60" alt="img" onclick="
+        if (document.getElementById('profile').style.display == 'block') {
+            document.getElementById('profile').style.display = 'none';
+        }
+        else {
+            document.getElementById('profile').style.display = 'block';
+        }
+        ">
+        <div id="profile">
+            {% set u = null %}
+            {% for user in users %}
+                {% if user.email == mail %}
+                    {% set u = user %}
+                {% endif %}
+            {% endfor %}
+            <a href="/user/{{ u.id }}">Mon profil</a><br>
+            <form method='post'><input type="submit" value="Déconnexion" name="deco"></form>
+        </div>
+    </div>
+{% endblock %}

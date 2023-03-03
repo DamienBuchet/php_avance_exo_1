@@ -15,6 +15,9 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
     #[ORM\Column(length: 50)]
     private ?string $pseudo = null;
 
@@ -159,6 +162,18 @@ class User
     public function setRole(int $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

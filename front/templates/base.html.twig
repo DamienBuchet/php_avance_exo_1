@@ -5,12 +5,30 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="http://localhost/php_avance/front/public/media/logo.png">
         <style>
+        @font-face{
+    font-family: "Nabla";
+    src: url("/media/fonts/Nabla/static/Nabla-Regular.ttf")
+}
             .sf-toolbar{
                 display: none !important;
+            }
+            *{
+                scrollbar-width: thin;
+            }
+            ::-webkit-scrollbar {
+                width: 10px;
+                background-color: lightgrey;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: darkgrey;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: grey;
             }
         </style>
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% endblock %}
     </body>
 </html>

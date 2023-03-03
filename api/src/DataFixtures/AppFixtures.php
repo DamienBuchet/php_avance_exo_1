@@ -18,13 +18,16 @@ class AppFixtures extends Fixture
         $users = [];
         for ($i=0; $i < 100; $i++) {
             $users[$i] = new User();
+            $p = $faker->password();
             $users[$i]
+                ->setEmail($faker->safeEmail())
                 ->setPseudo($faker->firstName)
-                ->setPassword(crypt($faker->password(), '$6$rounds=5000$randomsaltforfaker$'))
+                ->setPassword(crypt($p, $p))
                 ->setProfilPic(NULL)
                 ->setDescription($faker->realText())
                 ->setSuivis(NULL)
                 ->setLikes(NULL)
+                ->setRole(0)
             ;
             $manager->persist($users[$i]);
         }

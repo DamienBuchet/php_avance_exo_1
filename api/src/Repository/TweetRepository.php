@@ -39,6 +39,19 @@ class TweetRepository extends ServiceEntityRepository
         }
     }
 
+   /**
+    * @return Tweet[] Returns an array of Tweet objects
+    */
+   public function findAllOrderByDate(): array
+   {
+       return $this->createQueryBuilder('t')
+           ->orderBy('t.dateheure', 'DESC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+
 //    /**
 //     * @return Tweet[] Returns an array of Tweet objects
 //     */

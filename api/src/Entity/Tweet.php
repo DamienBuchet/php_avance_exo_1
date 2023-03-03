@@ -20,7 +20,7 @@ class Tweet
     #[ORM\Column(length: 1000)]
     private ?string $message = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 65535, nullable: true)]
     private ?string $media = null;
 
     #[ORM\ManyToOne(inversedBy: 'tweets')]
