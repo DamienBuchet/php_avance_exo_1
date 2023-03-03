@@ -84,9 +84,14 @@ class AccueilController extends AbstractController
         $users = ((((array)json_decode($response->getContent()))['users']));
         $response = $client->request('GET', 'http://localhost/php_avance/api/public/tweets');
         $tweets = ((((array)json_decode($response->getContent()))['tweets']));
+        $mail = $session->get('user');
+        $response = $client->request('GET', "http://localhost/php_avance/api/public/users/mail/$mail");
+        $user = ((((array)json_decode($response->getContent()))));
+        $infos = ($user['user']);
         return $this->render('accueil/index.html.twig', [
             'users' => $users,
             'tweets' => $tweets,
+            'infos' => $infos,
         ]);
     }
 

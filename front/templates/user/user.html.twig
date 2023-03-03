@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+{{ render('/header') }}
+
+<h2>Informations</h2>
+<p>Pseudo : {{ infos.pseudo }}</p>
+<p>Photo de profil : </p>
+{% if infos.profil_pic %}
+    <img src="http://localhost/php_avance/front/public/{{ infos.profil_pic }}" alt="pic" width="300">
+{% else %}
+    <img src="http://localhost/php_avance/api/public/media/default.png" alt="user" width="300">
+{% endif %}
+<p>Description : {{ infos.description }}</p>
+{% endblock %}

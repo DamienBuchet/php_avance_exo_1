@@ -8,9 +8,39 @@
 <h2>Mes informations</h2>
 <p>Adresse email : {{ infos.email }}</p>
 <p>Pseudo : {{ infos.pseudo }}</p>
+<p>Photo de profil : </p>
 {% if infos.profil_pic %}
     <img src="http://localhost/php_avance/front/public/{{ infos.profil_pic }}" alt="pic" width="300">
 {% else %}
     <img src="http://localhost/php_avance/api/public/media/default.png" alt="user" width="300">
 {% endif %}
+<p>Description : {{ infos.description }}</p>
+<hr>
+<h2>Modifier mes informations</h2>
+<form method='post' enctype='multipart/form-data'>
+    <input type="text" value="{{ infos.pseudo }}" placeholder="Pseudo" name="e_pseudo" id="e_pseudo"><br>
+    <input type="text" value="{{ infos.description }}" placeholder="Description" name="e_desc" id="e_desc"><br>
+    <label for="e_pp">Photo de profil : </label><input type='file' name="e_pp" id="e_pp"><br>
+    <input type="submit" name="edit" id="edit" value="Modifier">
+</form>
+<hr>
+<h2>Administration du compte</h2>
+<h3>Modifier le mot de passe</h3>
+<form method='post'>
+    <input type="password" name="ap" id="ap" placeholder="Ancien mot de passe" required><br>
+    <input type="password" name="np" id="np" placeholder="Nouveau mot de passe" required><br>
+    <input type="password" name="cnp" id="cnp" placeholder="Confirmer le nouveau mot de passe" required><br>
+    <input type="submit" name="ep" id="ep">
+</form>
+<br>
+<h3>Supprimer le compte</h3>
+<form method='post'>
+<input type='button' value="Supprimer le compte" id="supp" name="supp" style="background-color: red; color: white; border: none; padding: 10px; cursor: pointer;" onclick="
+if (confirm('Voulez-vous vraiment supprimer votre compte ?')) {
+    document.getElementById('supp').setAttribute('type', 'submit');
+    document.getElementById('supp').setAttribute('onclick', '');
+    document.getElementById('supp').click();
+}
+">
+</form>
 {% endblock %}

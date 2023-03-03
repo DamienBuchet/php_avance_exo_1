@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Tweet;
 use App\Entity\User;
+use App\Entity\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -123,14 +124,56 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/users', name: 'app_edit_user', methods: 'PUT')]
+    public function edit_user(Request $request, ManagerRegistry $doctrine): JsonResponse
+    {
+        $edited = true;
+        try {
+            $pseudo = $request->get('pseudo');
+            $user = $doctrine->getRepository(User::class)->findBy(['email' => $mail]);
+            if ($user != null) {
+                $response = "L'email est déjà utilisé";
+            }
+            else {
+                $em = $doctrine->getManager();
+                $u = new User();
+                $u->setEmail($mail);
+                $u->setPseudo($pseudo);
+                $u->setPassword($password);
+                $u->setProfilPic(NULL);
+                $u->setDescription(NULL);
+                $u->setSuivis(NULL);
+                $u->setLikes(NULL);
+                $u->setRole(0);
+                $em->persist($u);
+                $em->flush(); 
+            }
+        } catch (\Throwable $th) {
+            $edited = false;
+        }
+
+        return $this->json([
+            'edited' => $edited,
+        ]);
+    }
+
     #[Route('/users/{id}', name: 'app_del_user', methods: 'DELETE')]
     public function del_user($id, ManagerRegistry $doctrine): JsonResponse
     {
         $deleted = true;
         try {
             $user = $doctrine->getRepository(User::class)->find($id);
+            $m = $doctrine->getRepository(Message::class)->findBy(['env_user' => $id]);
+            $m2 = $doctrine->getRepository(Message::class)->findBy(['rec_user' => $id]);
+            $t = $doctrine->getRepository(Tweet::class)->findBy(['user' => $user]);
             $em = $doctrine->getManager();
             $em->remove($user);
+            $em->flush();
+            $em->remove($m);
+            $em->flush();
+            $em->remove($m2);
+            $em->flush();
+            $em->remove($t);
             $em->flush();
         } catch (\Throwable $th) {
             $deleted = false;

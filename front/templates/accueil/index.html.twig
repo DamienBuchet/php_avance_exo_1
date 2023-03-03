@@ -93,13 +93,19 @@ div{
                     <div class="t_user">
                         {% for user in users %}
                             {% if user.id == tweet.user %}
+                            <div style="display: flex; justify-content: space-between; cursor: pointer" onclick="location.href = '/user/{{tweet.user}}'">
                                 {% if user.profil_pic %}
                                     <img src="http://localhost/php_avance/front/public/{{ user.profil_pic }}" alt="user" width="40" height="40">
                                 {% else %}
                                     <img src="http://localhost/php_avance/api/public/media/default.png" alt="user" width="40" height="40">
                                 {% endif %}
                                 <p>{{ user.pseudo }}</p>
-                                <button style="height: 20px; border: none; background-color: transparent; margin-top: 10px; font-size: 25px; color: blue; cursor: pointer">+</button>
+                                </div>
+                                {% if tweet.user != infos.id %}
+                                    <button style="height: 20px; border: none; background-color: transparent; margin-top: 10px; font-size: 25px; color: blue; cursor: pointer">+</button>
+                                {% else %}
+                                    <button style="height: 20px; border: none; background-color: transparent; margin-top: 10px; font-size: 25px; color: grey; cursor: default">+</button>
+                                {% endif %}
                                 <span class="space"></span>
                                 <p>{{ tweet.dateheure | format_datetime(pattern='HH:mm:ss dd/MM/yyyy') }}</p>
                             {% endif %}
@@ -115,8 +121,13 @@ div{
                         {% endif %}
                     </div>
                     <div class="actions">
-                        <button style="border: none; background-color: transparent; font-size: 35px; color: grey; cursor: pointer;">♥</button>
-                        <button style="border: none; background-color: transparent; font-size: 35px; color: blue; cursor: pointer;">🗨</button>
+                        {% if tweet.user != infos.id %}
+                            <button style="border: none; background-color: transparent; font-size: 35px; color: red; cursor: pointer;">♥</button>
+                            <button style="border: none; background-color: transparent; font-size: 35px; color: blue; cursor: pointer;">🗨</button>
+                        {% else %}
+                            <button style="border: none; background-color: transparent; font-size: 35px; color: grey; cursor: default;">♥</button>
+                            <button style="border: none; background-color: transparent; font-size: 35px; color: grey; cursor: default;">🗨</button>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
